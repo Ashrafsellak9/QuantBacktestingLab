@@ -2,6 +2,12 @@ import streamlit as st
 import pandas as pd
 from data import get_stock_prices
 
+
+@st.cache_data(ttl=3600)
+def get_cached_prices(symbol):
+    print(f"Downloading {symbol}...")
+    return get_stock_prices(symbol)
+
 prices = {
     "Date": [
         "2026-11-16",
@@ -34,7 +40,7 @@ selected_symbol = st.selectbox(
     ["MSFT", "AAPL", "TSLA", "NVDA"]
 )
 
-history = get_stock_prices(selected_symbol)
+history = get_cached_prices(selected_symbol)
 
 if history.empty:
     st.warning("No data available")
