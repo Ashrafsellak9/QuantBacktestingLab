@@ -73,6 +73,16 @@ else:
     prices["SMA_20"] = prices["Close"].rolling(window=20).mean()
     prices["SMA_50"] = prices["Close"].rolling(window=50).mean()
     
+    prices["Signal"] = (
+        (prices["SMA_20"] > prices["SMA_50"]) & prices["SMA_50"].notna()
+    ).astype(int)
+    
+    st.subheader("Trading Signals")
+
+    st.dataframe(
+        prices[["Close", "SMA_50", "Signal"]].tail(15)
+    )
+
     st.line_chart(
         prices[["Close", "SMA_20", "SMA_50"]]
     )
