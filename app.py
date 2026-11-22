@@ -27,33 +27,18 @@ st.dataframe(df.round(2))
 st.subheader("Stock Price Evolution")
 st.line_chart(df, x="Date", y="Close")
 
-st.subheader("Microsoft Stock Prices")
+st.subheader("Real Market Data")
 
-msft = get_stock_prices("MSFT")
-if msft.empty:
+selected_symbol = st.selectbox(
+    "Choose a stock",
+    ["MSFT", "AAPL", "TSLA", "NVDA"]
+)
+
+history = get_stock_prices(selected_symbol)
+
+if history.empty:
     st.warning("No data available")
 else:
-    st.dataframe(msft.tail())
-    st.line_chart(msft["Close"])
+    st.dataframe(history.tail())
+    st.line_chart(history["Close"])
 
-
-
-st.subheader("Telsa Stock Prices")
-
-tesla = get_stock_prices("TSLA")
-if tesla.empty:
-    st.warning("No data available")
-else:
-    st.dataframe(tesla.tail())
-    st.line_chart(tesla["Close"])
-
-
-st.subheader("Apple Stock Prices")
-
-apple = get_stock_prices("AAPL")
-
-if apple.empty:
-    st.warning("No data available")
-else:
-    st.dataframe(apple.tail())
-    st.line_chart(apple["Close"])
