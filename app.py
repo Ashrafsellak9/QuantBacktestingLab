@@ -56,6 +56,7 @@ else:
         "Latest Daily Return",
         f"{latest_return:+.2%}"
     )
+
     daily_volatility = prices["Daily_Return"].std()
     annual_volatility = daily_volatility * math.sqrt(252)
 
@@ -69,7 +70,12 @@ else:
         f"{annual_volatility:.2%}"
     )
     
-    st.line_chart(prices["Close"])
+    prices["SMA_20"] = prices["Close"].rolling(window=20).mean()
+    prices["SMA_50"] = prices["Close"].rolling(window=50).mean()
+    
+    st.line_chart(
+        prices[["Close", "SMA_20", "SMA_50"]]
+    )
 
     
 
