@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from data import get_stock_prices
-
+import math
 
 @st.cache_data(ttl=3600)
 def get_cached_prices(symbol):
@@ -56,4 +56,20 @@ else:
         "Latest Daily Return",
         f"{latest_return:+.2%}"
     )
+    daily_volatility = prices["Daily_Return"].std()
+    annual_volatility = daily_volatility * math.sqrt(252)
+
+    st.metric(
+        "Daily Volatility",
+        f"{daily_volatility:.2%}"
+    )
+
+    st.metric(
+        "Annual Volatility",
+        f"{annual_volatility:.2%}"
+    )
+    
     st.line_chart(prices["Close"])
+
+    
+
