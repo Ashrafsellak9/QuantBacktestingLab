@@ -16,4 +16,7 @@ prices = {
 df = pd.DataFrame(prices)
 
 st.subheader("Historical Stock Prices")
-st.dataframe(df)
+
+df["Return (%)"] = df["Close"].pct_change() * 100
+
+st.dataframe(df.round(2))
