@@ -45,6 +45,15 @@ history = get_cached_prices(selected_symbol)
 if history.empty:
     st.warning("No data available")
 else:
-    st.dataframe(history.tail())
-    st.line_chart(history["Close"])
+    prices = history[["Close"]].copy()
+    
+    prices["Daily_Return"] = prices["Close"].pct_change()
+    st.dataframe(prices.tail())
 
+    latest_return = prices["Daily_Return"].iloc[-1]
+
+    st.metric(
+        "Latest Daily Return",
+        f"{latest_return:+.2%}"
+    )
+    st.line_chart(prices["Close"])
