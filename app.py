@@ -18,5 +18,10 @@ df = pd.DataFrame(prices)
 st.subheader("Historical Stock Prices")
 
 df["Return (%)"] = df["Close"].pct_change() * 100
+df["Date"] = pd.to_datetime(df["Date"])
 
 st.dataframe(df.round(2))
+
+
+st.subheader("Stock Price Evolution")
+st.line_chart(df, x="Date", y="Close")
